@@ -1,0 +1,39 @@
+@import '@fontsource/dm-sans/500.css';
+@import '@fontsource/dm-sans/600.css';
+@import '@fontsource/dm-sans/700.css';
+@import '@fontsource/inter/400.css';
+@import '@fontsource/inter/500.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    color-scheme: light;
+  }
+
+  body {
+    @apply bg-paper-ivory text-ink-brown font-body font-normal antialiased;
+    line-height: 1.6;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-heading;
+  }
+}
+
+@layer components {
+  .hero-gradient {
+    background-image:
+      radial-gradient(50% 40% at 10% 6%, rgba(191, 214, 164, 0.4), transparent 70%),
+      radial-gradient(60% 50% at 20% 22%, rgba(239, 174, 156, 0.45), transparent 70%),
+      radial-gradient(40% 35% at 6% 42%, rgba(198, 72, 58, 0.14), transparent 70%),
+      radial-gradient(55% 45% at 88% 12%, rgba(216, 210, 234, 0.4), transparent 70%),
+      radial-gradient(60% 50% at 65% 98%, rgba(232, 178, 61, 0.3), transparent 70%),
+      radial-gradient(70% 60% at 50% 100%, rgba(244, 212, 159, 0.35), transparent 70%),
+      linear-gradient(180deg, #f6f1e8 0%, #f6f1e8 100%);
+  }
+}

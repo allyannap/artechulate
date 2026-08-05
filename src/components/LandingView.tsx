@@ -35,8 +35,16 @@ const STEPS = [
     icon: <ChatIcon />,
     accent: 'bg-pale-lilac',
     title: 'Spin for a topic',
-    description:
-      'Hit spin and get a topic pulled from job postings on Indeed, Handshake, and LinkedIn — keywords ranked by relevance to the job title using information retrieval and NLP.',
+    description: (
+      <>
+        Hit spin and get a topic pulled from job postings on <strong className="font-semibold text-gray-500">Indeed</strong>,{' '}
+        <strong className="font-semibold text-gray-500">Handshake</strong>, and{' '}
+        <strong className="font-semibold text-gray-500">LinkedIn</strong> — keywords{' '}
+        <strong className="font-semibold text-[#D98A70]">ranked by relevance</strong> to the job title using{' '}
+        <strong className="font-semibold text-[#D98A70]">information retrieval</strong> and{' '}
+        <strong className="font-semibold text-[#D98A70]">NLP</strong>.
+      </>
+    ),
     tag: '75 topics, 3 categories',
   },
   {
@@ -44,16 +52,25 @@ const STEPS = [
     icon: <SearchIcon />,
     accent: 'bg-sage-green',
     title: 'Look it up',
-    description:
-      "Fuzzy on the concept? You've got 10 minutes on the open internet — no AI — to turn it into a clear, concise answer.",
+    description: (
+      <>
+        Fuzzy on the concept? You've got <strong className="font-semibold text-gray-500">10 minutes</strong> on the
+        open internet — <strong className="font-semibold text-gray-500">no AI</strong> — to turn it into a clear,
+        concise answer.
+      </>
+    ),
   },
   {
     number: '03',
     icon: <MicIcon />,
     accent: 'bg-blush-coral',
     title: 'Say it out loud',
-    description:
-      '60 seconds to explain it to your target audience. No redos. Record yourself, rate your delivery, and see where to improve.',
+    description: (
+      <>
+        <strong className="font-semibold text-gray-500">60 seconds</strong> to explain it to your target audience.
+        No redos. Record yourself, rate your delivery, and see where to improve.
+      </>
+    ),
   },
 ]
 

@@ -38,13 +38,14 @@ export function useCountdown({
     }
   }, [])
 
+  // Clear on unmount only. Do not gate start() on React state — Strict Mode
+  // clears the interval between effect runs while leaving isRunning=true.
   useEffect(() => clearTimer, [clearTimer])
 
   const start = useCallback(() => {
-    if (isRunning) return
+    if (intervalRef.current !== null) return
     setIsRunning(true)
     setIsPaused(false)
-    clearTimer()
     intervalRef.current = window.setInterval(() => {
       setSecondsLeft((prev) => {
         if (prev <= 1) {
@@ -56,24 +57,21 @@ export function useCountdown({
         return prev - 1
       })
     }, 1000)
-  }, [clearTimer, isRunning])
+  }, [clearTimer])
 
   const pause = useCallback(() => {
-    if (!isRunning || isPaused || pausesLeft <= 0) return
+    if (intervalRef.current === null || pausesLeft <= 0) return
     clearTimer()
     setIsRunning(false)
     setIsPaused(true)
     setPausesLeft((p) => p - 1)
-  }, [clearTimer, isRunning, isPaused, pausesLeft])
+  }, [clearTimer, pausesLeft])
 
   const resume = useCallback(() => {
     if (!isPaused) return
-    setIsPaused(false)
     start()
   }, [isPaused, start])
 
-  // Manual early-exit: stops the clock silently and leaves it to the caller
-  // to decide what happens next (no onComplete callback, no alert tone).
   const skip = useCallback(() => {
     clearTimer()
     setIsRunning(false)

@@ -24,7 +24,7 @@ export default function SpinScreen({ onStartResearch, resetSignal }: SpinScreenP
   const [spinsUsed, setSpinsUsed] = useState(0)
   const [landedTopic, setLandedTopic] = useState<Topic | null>(null)
   const [isSpinning, setIsSpinning] = useState(false)
-  const { primeAudio } = useTones()
+  const { primeAudio, playTimerStart } = useTones()
 
   const pool = useMemo(
     () => TOPICS.filter((topic) => selectedCategories.includes(topic.category)),
@@ -71,7 +71,7 @@ export default function SpinScreen({ onStartResearch, resetSignal }: SpinScreenP
           Spin for a <span className="text-blush-coral italic">topic</span>
         </h1>
         <p className="mt-4 text-base text-soft-taupe">
-          Pick your categories, spin, research on your own, then explain it out loud like you mean it.
+          Choose a category, spin a topic, then practice saying it out loud.
         </p>
       </div>
 
@@ -102,7 +102,13 @@ export default function SpinScreen({ onStartResearch, resetSignal }: SpinScreenP
 
           <button
             type="button"
-            onClick={() => landedTopic && onStartResearch(landedTopic, audience)}
+            onClick={() => {
+              if (!landedTopic || isSpinning) return
+              // Unlock + chime on the click gesture so the research timer start is audible
+              primeAudio()
+              playTimerStart()
+              onStartResearch(landedTopic, audience)
+            }}
             disabled={!landedTopic || isSpinning}
             className="mt-2 rounded-full border border-ink-brown/80 bg-paper-ivory px-7 py-3 text-sm font-semibold text-ink-brown transition hover:border-sage-green hover:bg-sage-green disabled:cursor-not-allowed disabled:opacity-40"
           >

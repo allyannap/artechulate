@@ -40,9 +40,9 @@ const STEPS = [
         Hit spin and get a topic pulled from job postings on <strong className="font-semibold text-gray-500">Indeed</strong>,{' '}
         <strong className="font-semibold text-gray-500">Handshake</strong>, and{' '}
         <strong className="font-semibold text-gray-500">LinkedIn</strong> — keywords{' '}
-        <strong className="font-semibold text-[#D98A70]">ranked by relevance</strong> to the job title using{' '}
-        <strong className="font-semibold text-[#D98A70]">information retrieval</strong> and{' '}
-        <strong className="font-semibold text-[#D98A70]">NLP</strong>.
+        <strong className="font-semibold text-[#E67F63]">ranked by relevance</strong> to the job title using{' '}
+        <strong className="font-semibold text-[#E67F63]">information retrieval</strong> and{' '}
+        <strong className="font-semibold text-[#E67F63]">NLP</strong>.
       </>
     ),
     tag: '75 topics, 3 categories',
@@ -83,7 +83,7 @@ export default function LandingView() {
           <p className="font-heading text-3xl font-semibold leading-snug text-ink-brown sm:text-4xl">
             You know the answer.
             <br />
-            <span className="text-blush-coral">Now make it land.</span>
+            <span className="text-[#E67F63]">Now articulate it well.</span>
           </p>
           <p className="max-w-lg text-xl leading-relaxed text-soft-taupe">
             Brush up on tech concepts for interviews, meetings, or your next family dinner.

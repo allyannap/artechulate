@@ -73,19 +73,19 @@ export default function SessionSummary({
   }
 
   return (
-    <ModalShell onDismiss={onDismiss} size="large">
-      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-soft-taupe">
-        {CATEGORY_LABELS[topic.category]} <span className="text-soft-taupe/40">·</span> Explaining to a{' '}
+    <ModalShell variant="stage" onDismiss={onDismiss} cardClassName="max-w-xl text-left">
+      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-blush-coral">
+        {CATEGORY_LABELS[topic.category]} <span className="text-ink-brown/40">·</span> Explaining to a{' '}
         {AUDIENCE_LABELS[audience].toLowerCase()}
       </p>
       <h2 className="mt-3 font-heading text-3xl font-semibold text-ink-brown sm:text-4xl">{topic.name}</h2>
 
       {/* Replay — above reflection */}
-      <div className="mt-6 rounded-xl border border-soft-taupe/25 bg-warm-sand/35 px-4 py-4">
+      <div className="mt-6 rounded-xl border border-ink-brown/15 bg-paper-ivory/80 px-4 py-4 text-left shadow-[0_8px_28px_rgba(44,34,33,0.12)]">
         <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-sm font-semibold text-ink-brown">Your 1-min speech</p>
-            <p className="mt-0.5 text-xs text-soft-taupe">
+            <p className="mt-0.5 text-xs text-ink-brown/65">
               {recordingUrl
                 ? 'Replay what you just said before you rate it.'
                 : 'No recording this round — mic access may have been blocked.'}
@@ -106,7 +106,7 @@ export default function SessionSummary({
         )}
       </div>
 
-      <p className="mt-6 text-base text-soft-taupe">How&apos;d that feel?</p>
+      <p className="mt-6 text-base text-ink-brown/70">How&apos;d that feel?</p>
 
       <div className="mt-4 flex justify-center gap-2">
         {[1, 2, 3, 4, 5].map((value) => {
@@ -124,7 +124,7 @@ export default function SessionSummary({
                   : { borderColor: `${color}80`, color }
               }
               className={`flex h-12 w-12 items-center justify-center rounded-full border text-sm font-semibold transition ${
-                isFilled ? 'text-ink-brown' : 'bg-paper-ivory hover:opacity-80'
+                isFilled ? 'text-ink-brown' : 'bg-paper-ivory/85 hover:opacity-90'
               }`}
             >
               {value}
@@ -138,7 +138,7 @@ export default function SessionSummary({
         onChange={(e) => setNotes(e.target.value)}
         placeholder="Optional reflection notes — what worked, what felt shaky?"
         rows={4}
-        className="mt-6 w-full resize-none rounded-lg border border-soft-taupe/30 bg-warm-sand/30 p-4 text-sm text-ink-brown placeholder:text-soft-taupe/70 focus:border-blush-coral focus:outline-none"
+        className="mt-6 w-full resize-none rounded-lg border border-ink-brown/15 bg-paper-ivory/80 p-4 text-left text-sm text-ink-brown placeholder:text-ink-brown/45 shadow-[0_8px_28px_rgba(44,34,33,0.08)] focus:border-blush-coral focus:outline-none"
       />
 
       <div className="mt-6 flex flex-col gap-3 sm:flex-row">
@@ -146,19 +146,21 @@ export default function SessionSummary({
           type="button"
           onClick={handleSave}
           disabled={rating === 0}
-          className="flex-1 rounded-full bg-blush-coral px-5 py-3 text-sm font-semibold text-ink-brown shadow-card transition hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-40"
+          className="flex-1 rounded-full bg-blush-coral px-5 py-3 text-sm font-semibold text-ink-brown shadow-[0_8px_28px_rgba(239,174,156,0.4)] transition hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-40"
         >
           {saved ? 'Saved ✓' : 'Save to History'}
         </button>
         <button
           type="button"
           onClick={onTryAnother}
-          className="flex-1 rounded-full border border-ink-brown/80 bg-paper-ivory px-5 py-3 text-sm font-semibold text-ink-brown transition hover:bg-ink-brown hover:text-paper-ivory"
+          className="flex-1 rounded-full border border-ink-brown/80 bg-paper-ivory/90 px-5 py-3 text-sm font-semibold text-ink-brown transition hover:bg-ink-brown hover:text-paper-ivory"
         >
           Try Another Topic
         </button>
       </div>
-      <p className="mt-5 text-center text-xs text-soft-taupe">Click outside or press Esc to close</p>
+      <p className="mt-5 text-center text-xs font-medium text-paper-ivory/80">
+        Click outside or press Esc to close
+      </p>
     </ModalShell>
   )
 }

@@ -14,7 +14,7 @@ const NAV_ITEMS: { view: View; label: string }[] = [
 
 export default function Header({ view, onNavigate }: HeaderProps) {
   return (
-    <header className="flex items-center justify-between px-6 py-5 sm:px-10">
+    <header id="app-header" className="flex items-center justify-between px-6 py-5 sm:px-10">
       <button type="button" onClick={() => onNavigate('home')} className="transition hover:opacity-80">
         <Logo className="text-lg" />
       </button>

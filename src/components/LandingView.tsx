@@ -1,3 +1,5 @@
+import { useEffect, useRef, useState } from 'react'
+import { motion } from 'framer-motion'
 import Logo from './Logo'
 import ExampleExplainer from './ExampleExplainer'
 
@@ -75,32 +77,118 @@ const STEPS = [
 ]
 
 export default function LandingView() {
+  const howRef = useRef<HTMLElement>(null)
+  const [headerHeight, setHeaderHeight] = useState(88)
+
+  useEffect(() => {
+    const header = document.getElementById('app-header')
+    if (!header) return
+
+    const update = () => setHeaderHeight(header.getBoundingClientRect().height)
+    update()
+
+    const observer = new ResizeObserver(update)
+    observer.observe(header)
+    window.addEventListener('resize', update)
+    return () => {
+      observer.disconnect()
+      window.removeEventListener('resize', update)
+    }
+  }, [])
+
+  const scrollToHow = () => {
+    howRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+
   return (
-    <div className="flex flex-col items-center">
-      <section className="mx-auto grid w-full max-w-6xl gap-12 px-6 pb-24 pt-16 sm:pt-24 lg:grid-cols-[1.35fr_1fr] lg:items-start lg:gap-16">
-        <div className="flex flex-col items-start gap-8 text-left">
-          <Logo className="text-6xl sm:text-7xl" />
-          <p className="font-heading text-3xl font-semibold leading-snug text-ink-brown sm:text-4xl">
-            You know the answer.
-            <br />
-            <span className="text-[#E67F63]">Now articulate it well.</span>
-          </p>
-          <p className="max-w-lg text-xl leading-relaxed text-soft-taupe">
-            Brush up on tech concepts for interviews, meetings, or your next family dinner.
-          </p>
+    <div className="flex flex-col">
+      <section
+        className="relative mx-auto flex w-full max-w-6xl flex-col justify-center px-6"
+        style={{ minHeight: `calc(100dvh - ${headerHeight}px)` }}
+      >
+        <div className="grid w-full gap-10 py-6 lg:grid-cols-[1.35fr_1fr] lg:items-center lg:gap-16">
+          <motion.div
+            className="flex flex-col items-start gap-8 text-left"
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <Logo className="text-6xl sm:text-7xl" />
+            <p className="font-heading text-3xl font-semibold leading-snug text-ink-brown sm:text-4xl">
+              You know the answer.
+              <br />
+              <span className="text-[#E67F63]">Now articulate it well.</span>
+            </p>
+            <p className="max-w-lg text-xl leading-relaxed text-soft-taupe">
+              Brush up on tech concepts for interviews, meetings, or your next family dinner.
+            </p>
+          </motion.div>
+
+          <motion.div
+            className="w-full rounded-2xl border border-soft-taupe/35 bg-paper-ivory/95 p-5 shadow-card sm:p-6"
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <ExampleExplainer />
+          </motion.div>
         </div>
 
-        <div className="w-full rounded-2xl border border-soft-taupe/30 bg-paper-ivory/60 p-5 shadow-card sm:p-6">
-          <ExampleExplainer />
-        </div>
+        <motion.button
+          type="button"
+          onClick={scrollToHow}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.45, duration: 0.5 }}
+          className="relative z-10 mx-auto mt-2 mb-3 flex flex-col items-center gap-1 text-soft-taupe transition hover:text-ink-brown"
+          aria-label="Scroll to how it works"
+        >
+          <span className="text-xs font-medium tracking-wide">How it works</span>
+          <motion.span
+            aria-hidden
+            animate={{ y: [0, 6, 0] }}
+            transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+            className="text-lg leading-none"
+          >
+            ↓
+          </motion.span>
+        </motion.button>
+
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-b from-transparent to-[#f6f1e8]/80"
+        />
       </section>
 
-      <section className="mx-auto w-full max-w-5xl px-6 pb-20 sm:pb-28">
-        <div className="relative grid gap-6 sm:grid-cols-3">
+      <section
+        ref={howRef}
+        id="how-it-works"
+        className="mx-auto w-full max-w-5xl scroll-mt-8 px-6 pb-20 pt-4 sm:pb-28 sm:pt-8"
+      >
+        <motion.div
+          className="relative grid gap-6 sm:grid-cols-3"
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.28 }}
+          variants={{
+            hidden: {},
+            show: {
+              transition: { staggerChildren: 0.14, delayChildren: 0.05 },
+            },
+          }}
+        >
           <div className="pointer-events-none absolute inset-x-16 top-[2.85rem] hidden h-px bg-soft-taupe/25 sm:block" />
           {STEPS.map((step) => (
-            <div
+            <motion.div
               key={step.number}
+              variants={{
+                hidden: { opacity: 0, y: 36 },
+                show: {
+                  opacity: 1,
+                  y: 0,
+                  transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] },
+                },
+              }}
               className="relative rounded-xl border border-soft-taupe/30 bg-paper-ivory/85 p-6 shadow-card"
             >
               <div className="flex items-start justify-between">
@@ -120,9 +208,9 @@ export default function LandingView() {
                   {step.tag}
                 </span>
               )}
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </section>
     </div>
   )

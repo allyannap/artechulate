@@ -43,7 +43,9 @@ export default function ExampleExplainer() {
   return (
     <div className="w-full text-left">
       <p className="font-heading text-base font-semibold text-blush-coral">Practice</p>
-      <p className="mt-1 text-xs text-soft-taupe">Different topics to different audiences.</p>
+      <p className="mt-1 text-xs font-medium text-ink-brown/70">
+        Different topics to different audiences.
+      </p>
 
       <div className="mt-4">
         <p className="text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-soft-taupe">Topic</p>

@@ -30,27 +30,74 @@ function pickRandom<T>(items: T[]): T {
   return items[Math.floor(Math.random() * items.length)]
 }
 
+function pickDifferentTopic(pool: Topic[], previous: Topic | null): Topic {
+  if (pool.length === 0) {
+    throw new Error('Topic pool is empty')
+  }
+  if (pool.length === 1 || !previous) return pickRandom(pool)
+  const options = pool.filter((t) => t.id !== previous.id)
+  return pickRandom(options.length > 0 ? options : pool)
+}
+
+function pickDifferentCategory(categories: Category[], previous: Category | null): Category {
+  if (categories.length === 0) {
+    throw new Error('Category pool is empty')
+  }
+  if (categories.length === 1 || !previous) return pickRandom(categories)
+  const options = categories.filter((c) => c !== previous)
+  return pickRandom(options.length > 0 ? options : categories)
+}
+
 function buildSubjectReel(pool: Topic[], winner: Topic): Topic[] {
   const reel: Topic[] = []
+  let previous: Topic | null = null
+
   for (let i = 0; i < SPIN_LOOPS; i++) {
-    reel.push(pickRandom(pool))
-  }
-  reel.push(winner)
-  for (let i = 0; i < TRAILING_ROWS; i++) {
-    let next = pickRandom(pool)
-    if (next.id === winner.id && pool.length > 1) {
-      next = pool.find((t) => t.id !== winner.id) ?? next
-    }
+    const next = pickDifferentTopic(pool, previous)
     reel.push(next)
+    previous = next
   }
+
+  // Ensure the item above the winner isn't also the winner
+  if (previous && previous.id === winner.id && pool.length > 1) {
+    const replacement = pickDifferentTopic(pool, winner)
+    reel[reel.length - 1] = replacement
+    previous = replacement
+  }
+
+  reel.push(winner)
+  previous = winner
+
+  for (let i = 0; i < TRAILING_ROWS; i++) {
+    const next = pickDifferentTopic(pool, previous)
+    reel.push(next)
+    previous = next
+  }
+
   return reel
 }
 
 function buildCategoryReel(pool: Topic[], winner: Topic, length: number): Category[] {
   const categories = Array.from(new Set(pool.map((t) => t.category)))
-  const reel: Category[] = Array.from({ length }, () => pickRandom(categories))
   const winnerIndex = length - 1 - TRAILING_ROWS
-  reel[winnerIndex] = winner.category
+  const reel: Category[] = []
+  let previous: Category | null = null
+
+  for (let i = 0; i < length; i++) {
+    if (i === winnerIndex) {
+      // Avoid duplicate with the row above when possible
+      if (previous === winner.category && categories.length > 1 && i > 0) {
+        reel[i - 1] = pickDifferentCategory(categories, winner.category)
+      }
+      reel.push(winner.category)
+      previous = winner.category
+      continue
+    }
+    const next = pickDifferentCategory(categories, previous)
+    reel.push(next)
+    previous = next
+  }
+
   return reel
 }
 

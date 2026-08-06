@@ -82,17 +82,14 @@ export default function SpeechOverlay({ topic, audience, onDone, onDismiss }: Sp
   }
 
   return (
-    <ModalShell
-      onDismiss={handleDismiss}
-      size="large"
-      dimClassName="bg-ink-brown/70"
-      cardClassName="text-center"
-    >
-      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-soft-taupe">
-        {CATEGORY_LABELS[topic.category]} <span className="text-soft-taupe/40">·</span> Explaining to a{' '}
+    <ModalShell variant="stage" onDismiss={handleDismiss}>
+      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-blush-coral">
+        {CATEGORY_LABELS[topic.category]} <span className="text-ink-brown/40">·</span> Explaining to a{' '}
         {AUDIENCE_LABELS[audience].toLowerCase()}
       </p>
-      <h2 className="mt-3 font-heading text-3xl font-semibold text-ink-brown sm:text-4xl">{topic.name}</h2>
+      <h2 className="mt-3 font-heading text-3xl font-semibold text-ink-brown sm:text-4xl">
+        {topic.name}
+      </h2>
 
       <div className="mt-10 flex justify-center">
         <CircularTimer
@@ -100,19 +97,22 @@ export default function SpeechOverlay({ topic, audience, onDone, onDismiss }: Sp
           label={hasStarted ? (status === 'recording' ? 'Recording' : 'Speak') : 'Ready'}
           timeLabel={formatTime(secondsLeft)}
           ringColorClass={isUrgent ? 'stroke-scarlet' : 'stroke-apricot-glow'}
-          textColorClass={isUrgent ? 'text-scarlet' : 'text-ink-brown'}
-          size={280}
+          trackColorClass="stroke-paper-ivory/35"
+          textColorClass={isUrgent ? 'text-scarlet' : 'text-[#FFF6E0]'}
+          labelColorClass={isUrgent ? 'text-[#F4B1A3]' : 'text-paper-ivory/90'}
+          size={300}
+          emphasis
         />
       </div>
 
-      {error && <p className="mx-auto mt-4 max-w-md text-xs text-soft-taupe">{error}</p>}
+      {error && <p className="mx-auto mt-4 max-w-md text-xs text-paper-ivory/60">{error}</p>}
 
       <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
         {!hasStarted ? (
           <button
             type="button"
             onClick={() => void handleStart()}
-            className="rounded-full bg-scarlet px-8 py-3.5 text-sm font-semibold text-paper-ivory shadow-card transition hover:brightness-105"
+            className="rounded-full bg-scarlet px-8 py-3.5 text-sm font-semibold text-paper-ivory shadow-[0_8px_28px_rgba(193,91,66,0.45)] transition hover:brightness-105"
           >
             Start Speaking
           </button>
@@ -121,13 +121,15 @@ export default function SpeechOverlay({ topic, audience, onDone, onDismiss }: Sp
             type="button"
             onClick={handleEnd}
             disabled={!isRunning}
-            className="rounded-full border border-soft-taupe/50 bg-paper-ivory px-6 py-3 text-sm font-medium text-ink-brown transition hover:bg-warm-sand disabled:cursor-not-allowed disabled:opacity-40"
+            className="rounded-full border border-paper-ivory/45 bg-paper-ivory/10 px-6 py-3 text-sm font-medium text-paper-ivory transition hover:bg-paper-ivory/20 disabled:cursor-not-allowed disabled:opacity-40"
           >
             End
           </button>
         )}
       </div>
-      <p className="mt-6 text-xs text-soft-taupe">Click outside or press Esc to close</p>
+      <p className="mt-6 text-xs font-medium text-paper-ivory/80">
+        Click outside or press Esc to close
+      </p>
     </ModalShell>
   )
 }
